@@ -1,13 +1,20 @@
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-college-mini-project-change-before-deployment"
-DEBUG = True
+DEBUG = os.environ.get("RENDER") != "true"
+
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "digital-inventory-sales-management-1.onrender.com",
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://digital-inventory-sales-management-1.onrender.com",
+
+
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -21,6 +28,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
