@@ -1,0 +1,22 @@
+{% extends "inventory/base.html" %}
+{% block title %}Dashboard | StockWise{% endblock %}
+{% block content %}
+<div class="pagehead"><div><p class="eyebrow">OVERVIEW</p><h1>Inventory dashboard</h1><p class="muted">A clear view of your products, stock, and sales.</p></div><a class="button" href="{% url 'product_create' %}">＋ Add product</a></div>
+<section class="stats">
+  <article class="stat"><span class="stat-icon">🧾</span><p>Total products</p><strong>{{ product_count }}</strong><small>Unique products in catalog</small></article>
+  <article class="stat"><span class="stat-icon">📦</span><p>Units in stock</p><strong>{{ units_in_stock }}</strong><small>Across all products</small></article>
+  <article class="stat"><span class="stat-icon">💰</span><p>Stock value</p><strong>₹{{ stock_value|floatformat:2 }}</strong><small>Current price × quantity</small></article>
+  <article class="stat"><span class="stat-icon">📈</span><p>Total sales</p><strong>₹{{ total_sales|floatformat:2 }}</strong><small>Recorded sales revenue</small></article>
+</section>
+<div class="grid-two">
+  <section class="panel"><div class="panelhead"><h2>Low-stock alerts</h2><a href="{% url 'product_list' %}">View products →</a></div>
+  {% if low_stock_products %}<div class="tablewrap"><table><thead><tr><th>Product</th><th>In stock</th><th>Status</th></tr></thead><tbody>
+  {% for p in low_stock_products %}<tr><td><strong>{{ p.name }}</strong><small class="subline">{{ p.sku }}</small></td><td>{{ p.quantity }}</td><td><span class="badge warning">Low stock</span></td></tr>{% endfor %}
+  </tbody></table></div>{% else %}<div class="empty">All products are above their low-stock thresholds.</div>{% endif %}</section>
+  <section class="panel"><div class="panelhead"><h2>Recent sales</h2><a href="{% url 'sales_history' %}">View all →</a></div>
+  {% if recent_sales %}<div class="tablewrap"><table><thead><tr><th>Product</th><th>Qty</th><th>Total</th></tr></thead><tbody>
+  {% for s in recent_sales %}<tr><td><strong>{{ s.product.name }}</strong><small class="subline">{{ s.sold_at|date:"d M, H:i" }}</small></td><td>{{ s.quantity }}</td><td>₹{{ s.total_amount|floatformat:2 }}</td></tr>{% endfor %}
+  </tbody></table></div>{% else %}<div class="empty">No sales recorded yet. Record your first sale to see it here.</div>{% endif %}</section>
+</div>
+<div class="quicklinks"><a href="{% url 'product_create' %}">＋ Add a product</a><a href="{% url 'record_sale' %}">↗ Record a sale</a><a href="{% url 'sales_history' %}">▤ Sales history</a></div>
+{% endblock %}

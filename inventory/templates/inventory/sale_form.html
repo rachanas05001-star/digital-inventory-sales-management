@@ -1,0 +1,11 @@
+{% extends "inventory/base.html" %}
+{% block title %}Record Sale | StockWise{% endblock %}
+{% block content %}
+<div class="pagehead"><div><p class="eyebrow">TRANSACTIONS</p><h1>Record a sale</h1><p class="muted">Choose a product and quantity. Stock updates automatically.</p></div><a class="button secondary" href="{% url 'sales_history' %}">Sales history →</a></div>
+<section class="form-card narrow"><div class="info-box">The sale total is calculated using the product's current selling price. You cannot sell more units than are available.</div>
+<form method="post">{% csrf_token %}
+{% if form.non_field_errors %}<div class="errors">{{ form.non_field_errors }}</div>{% endif %}
+{% for field in form %}<div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for e in field.errors %}<small class="error">{{ e }}</small>{% endfor %}</div>{% endfor %}
+<div class="form-actions"><a class="button secondary" href="{% url 'dashboard' %}">Cancel</a><button class="button" type="submit">Record sale</button></div>
+</form></section>
+{% endblock %}

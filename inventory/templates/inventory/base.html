@@ -1,0 +1,31 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Inventory & Sales{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'inventory/style.css' %}">
+</head>
+<body>
+{% if request.user.is_authenticated %}
+<header class="topbar">
+  <a class="brand" href="{% url 'dashboard' %}">📦 StockWise</a>
+  <nav>
+    <a href="{% url 'dashboard' %}">Dashboard</a>
+    <a href="{% url 'product_list' %}">Products</a>
+    <a href="{% url 'record_sale' %}">Record Sale</a>
+    <a href="{% url 'sales_history' %}">Sales History</a>
+  </nav>
+  <div class="userbox">{{ request.user.username }}
+    <form method="post" action="{% url 'logout' %}" class="inline">{% csrf_token %}<button class="linkbutton" type="submit">Log out</button></form>
+  </div>
+</header>
+{% endif %}
+<main class="container">
+  {% for message in messages %}<div class="message {{ message.tags }}">{{ message }}</div>{% endfor %}
+  {% block content %}{% endblock %}
+</main>
+<footer>Digital Inventory and Sales Management System · Mini Project</footer>
+</body>
+</html>

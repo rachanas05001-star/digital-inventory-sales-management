@@ -1,0 +1,9 @@
+{% extends "inventory/base.html" %}
+{% block title %}Sales History | StockWise{% endblock %}
+{% block content %}
+<div class="pagehead"><div><p class="eyebrow">TRANSACTIONS</p><h1>Sales history</h1><p class="muted">A record of all sales entered into the system.</p></div><a class="button" href="{% url 'record_sale' %}">＋ Record sale</a></div>
+<section class="stats single"><article class="stat"><p>Total recorded sales revenue</p><strong>₹{{ total_sales|floatformat:2 }}</strong><small>Sum of all recorded sale totals</small></article><article class="stat"><p>Number of transactions</p><strong>{{ sales|length }}</strong><small>Individual sales records</small></article></section>
+<section class="panel"><div class="tablewrap"><table><thead><tr><th>Sale ID</th><th>Date & time</th><th>Product</th><th>Quantity</th><th>Unit price</th><th>Total</th><th>Recorded by</th></tr></thead><tbody>
+{% for s in sales %}<tr><td>#{{ s.id }}</td><td>{{ s.sold_at|date:"d M Y, H:i" }}</td><td><strong>{{ s.product.name }}</strong></td><td>{{ s.quantity }}</td><td>₹{{ s.unit_price|floatformat:2 }}</td><td><strong>₹{{ s.total_amount|floatformat:2 }}</strong></td><td>{{ s.sold_by.username }}</td></tr>{% empty %}<tr><td colspan="7" class="empty">No sales yet. Record a sale to build your sales history.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}
