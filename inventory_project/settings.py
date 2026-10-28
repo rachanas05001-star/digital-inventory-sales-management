@@ -13,7 +13,7 @@ ALLOWED_HOSTS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "https://digital-inventory-sales-management-1.onrender.com",
-
+]
 
 
 INSTALLED_APPS = [
